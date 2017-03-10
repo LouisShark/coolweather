@@ -1,8 +1,10 @@
 package android.coolweather.com.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.coolweather.com.coolweather.gson.Forecast;
 import android.coolweather.com.coolweather.gson.Weather;
+import android.coolweather.com.coolweather.service.AutoUpdateService;
 import android.coolweather.com.coolweather.util.HttpUtil;
 import android.coolweather.com.coolweather.util.Utility;
 import android.graphics.Color;
@@ -150,6 +152,8 @@ public class WeatherActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather", responseText);
                             editor.apply();
+                            Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);
+                            WeatherActivity.this.startService(intent);
                             showWeatherInfo(weather);
                         } else {
                             Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
